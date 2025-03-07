@@ -1,7 +1,27 @@
-from telegram.ext import CommandHandler
-from app.commands import start_command, help_command, quote_command
+from aiogram import types, Router
+from aiogram.filters import Command
+from app.database import get_random_quote
+from app.keyboards import main_keyboard
 
-def setup_handlers(app):
-    app.add_handler(CommandHandler("start", start_command))
-    app.add_handler(CommandHandler("help", help_command))
-    app.add_handler(CommandHandler("quote", quote_command))
+router = Router()
+
+@router.message(Command("stgit branch -M mainart"))
+async def start_command(message: types.Message):
+    await message.answer("Привіт! Я бот, що надсилає цитати.", reply_markup=main_keyboard())
+
+@router.message(Command("help"))
+async def help_command(message: types.Message):
+    await message.answer("Я можу надсилати випадкові цитати. Використай /quote.")
+
+@router.message(Command("quote"))
+async def quote_command(message: types.Message):
+    quote = get_random_quote()
+    await message.answer(quote)
+
+@router.message()
+async def handle_buttons(message: types.Message):
+    if message.text == "Отримати цитату":
+        quote = get_random_quote()
+        await message.answer(quote)
+    elif message.text == "Інші функції":
+        await message.answer("Поки що інших функцій немає.")
