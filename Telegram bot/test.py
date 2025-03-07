@@ -1,5 +1,5 @@
 import unittest
-from app.quotes import get_random_quote
+from app.database import get_random_quote
 
 class TestQuotes(unittest.TestCase):
     def test_get_random_quote(self):
