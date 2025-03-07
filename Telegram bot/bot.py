@@ -1,36 +1,47 @@
 import logging
 import os
+import asyncio
 from dotenv import load_dotenv
-from telegram.ext import ApplicationBuilder
-from apscheduler.schedulers.background import BackgroundScheduler
-from app.handlers import setup_handlers
-from app.quotes import get_random_quote
+from aiogram import Bot, Dispatcher
+from aiogram.types.bot_command import BotCommand
+from app.handlers import router
+from app.scheduler import scheduler
+
 
 load_dotenv()
 
-TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")  
+#TOKEN = os.getenv("TOKEN")
+
+TOKEN = "7712944487:AAFD1SOqaF5Gg5xIWsnEnrblF7JlVEwVDdU"
+
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO
 )
 
-def send_daily_quote(app):
-    """Надсилає цитату раз на день у вказаний чат."""
-    quote = get_random_quote()
-    app.bot.send_message(chat_id=CHAT_ID, text=quote)
 
-def main():
-    app = ApplicationBuilder().token(TOKEN).build()
-    setup_handlers(app)
 
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(send_daily_quote, "interval", hours=24, args=[app])  
+async def main():
+    bot = Bot(TOKEN)
+    dp = Dispatcher()
+    dp.include_router(router)
+    
+
     scheduler.start()
 
     print("Бот запущено!")
-    app.run_polling()
+
+
+
+    await bot.set_my_commands(
+        [
+            BotCommand(command="start", description="Зaпуск ботa"),
+           
+        ]
+    )
+
+    await dp.start_polling(bot)
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
