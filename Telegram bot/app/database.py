@@ -8,3 +8,6 @@ def get_random_quote():
     with open(DATA_FILE, "r", encoding="utf-8") as file:
         quotes = json.load(file)
     return random.choice(quotes)
+def add_quote():
+    pass
+
