@@ -37,6 +37,8 @@ async def main():
     await bot.set_my_commands(
         [
             BotCommand(command="start", description="Зaпуск ботa"),
+            BotCommand(command="help", description="Допомога"),
+            BotCommand(command="quote", description="Отримати випадкову"),
            
         ]
     )
