@@ -1,11 +1,11 @@
 from aiogram import types, Router
-from aiogram.filters import Command
+from aiogram.filters import Command, CommandStart
 from app.database import get_random_quote
 from app.keyboards import main_keyboard
 
 router = Router()
 
-@router.message(Command("stgit branch -M mainart"))
+@router.message(CommandStart()) 
 async def start_command(message: types.Message):
     await message.answer("Привіт! Я бот, що надсилає цитати.", reply_markup=main_keyboard())
 
