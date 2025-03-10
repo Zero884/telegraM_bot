@@ -7,7 +7,7 @@ router = Router()
 
 @router.message(CommandStart()) 
 async def start_command(message: types.Message):
-    await message.answer("Привіт! Я бот, що надсилає цитати.", reply_markup=main_keyboard())
+    await message.answer("Привіт! Я бот, що надсилає цитати.", reply_markup=await main_keyboard())
 
 @router.message(Command("help"))
 async def help_command(message: types.Message):
