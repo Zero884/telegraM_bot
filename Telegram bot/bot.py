@@ -10,9 +10,7 @@ from app.scheduler import scheduler
 
 load_dotenv()
 
-#TOKEN = os.getenv("TOKEN")
-
-TOKEN = "7712944487:AAFD1SOqaF5Gg5xIWsnEnrblF7JlVEwVDdU"
+TOKEN = os.getenv("TOKEN")
 
 
 logging.basicConfig(
